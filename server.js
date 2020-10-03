@@ -84,13 +84,18 @@ app.get('/stream/:streamId', (req, res) => {
   ], { shell: true })
 
   process.on('error', (err) => {
-    console.log(err)
+    console.log('Stream error', err)
     res.end()
   })
 
   process.on('close', () => {
-    console.log('closed')
+    console.log('Stream closed')
     res.send()
+  })
+
+  req.on('close', () => {
+    console.log('Request closed')
+    process.kill('SIGHUP')
   })
 
   process.stdout.pipe(res)
