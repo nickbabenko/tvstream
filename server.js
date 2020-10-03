@@ -3,23 +3,13 @@ const express = require('express')
 const xml = require('xml')
 const fs = require('fs')
 
+const { config } = require('./config')
+const { ssdp } = require('./ssdp')
+
 const app = express()
 
 const scanFile = `${__dirname}/scan_WinterHill.txt`
 
-const config = {
-  FriendlyName: 'HDHomerun (RPI)',
-  Manufacturer: 'Silicondust',
-  ManufacturerURL: 'https://github.com/nickbabenko/tvstream',
-  ModelNumber: 'HDTC-2US',
-  FirmwareName: 'hdhomeruntc_atsc',
-  TunerCount: 1,
-  FirmwareVersion: '20170930',
-  DeviceID: '2f70c0d7-90a3-4429-8275-cbeeee9cd605',
-  DeviceAuth: "test1234",
-  BaseURL: 'http://192.168.0.71:3000',
-  LineupURL: `http://192.168.0.71:3000/lineup.json`
-}
 const channelMap = {}
 const scanData = fs.readFileSync(scanFile).toString().split('\n')
 let channelCurrent = null
@@ -187,4 +177,6 @@ app.get('/stream/:streamId', (req, res) => {
   process.stdout.pipe(res)
 })
 
-app.listen(3000)
+app.listen(3000, () => {
+  ssdp()
+})
