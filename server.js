@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const child_process = require('child_process')
 const express = require('express')
 const fs = require('fs')
@@ -100,6 +102,6 @@ app.get('/stream/:streamId', (req, res) => {
   process.stdout.pipe(res)
 })
 
-app.listen(3000, () => {
+app.listen(process.env.HTTP_PORT || 3000, () => {
   ssdp()
 })

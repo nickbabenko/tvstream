@@ -10,3 +10,4 @@ scp ContentDirectory.xml pi@192.168.0.71:ContentDirectory.xml
 scp -r views pi@192.168.0.71:views
 scp yarn.lock pi@192.168.0.71:yarn.lock
 scp package.json pi@192.168.0.71:package.json
+scp .env pi@192.168.0.71:.env

@@ -1,3 +1,5 @@
+const os = require('os')
+
 exports.config = {
   FriendlyName: 'HDHomerun (RPI)',
   Manufacturer: 'Silicondust',

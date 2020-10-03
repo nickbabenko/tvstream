@@ -4,7 +4,7 @@ const { config } = require('./config')
 
 const server = new SSDP({
   location: {
-    port: 3000,
+    port: process.env.HTTP_PORT || 3000,
     path: '/device.xml'
   },
   udn: `uuid:${config.DeviceID}`,
