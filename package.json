@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^3.1.5",
     "express": "^4.17.1",
     "node-ssdp": "^4.0.0",
     "xml": "^1.0.1"

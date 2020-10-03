@@ -8,6 +8,8 @@ const { ssdp } = require('./ssdp')
 
 const app = express()
 
+app.set('view engine', 'ejs')
+
 const scanFile = `${__dirname}/scan_WinterHill.txt`
 
 const channelMap = {}
@@ -29,90 +31,7 @@ scanData.forEach(line => {
 app.get('/device.xml', (req, res) => {
   res
     .set('Content-Type', 'text/xml')
-    .send(xml([{
-      root: [
-        {
-          _attr: {
-            xmlns: 'urn:schemas-upnp-org:device-1-0',
-            'xmlns:dlna': 'urn:schemas-dlna-org:device-1-0',
-            'xmlns:pnpx': 'http://schemas.microsoft.com/windows/pnpx/2005/11',
-            'xmlns:df': 'http://schemas.microsoft.com/windows/2008/09/devicefoundation',
-          },
-        },
-        {
-          specVersion: {
-            major: 1,
-            minor: 0,
-          },
-        },
-        {
-          URLBase: config.BaseURL,
-        },
-        {
-          device: [
-            { 'dlna:X_DLNADOC': 'DMS-1.50' },
-            { 'pnpx:X_hardwareId': 'VEN_0115&amp;DEV_1040&amp;SUBSYS_0001&amp;REV_0004 VEN_0115&amp;DEV_1040&amp;SUBSYS_0001 VEN_0115&amp;DEV_1040' },
-            { 'pnpx:X_deviceCategory': 'MediaDevices' },
-            { 'df:X_deviceCategory': 'Multimedia' },
-            { deviceType: 'urn:schemas-upnp-org:device:MediaServer:1' },
-            { friendlyName: config.FriendlyName },
-            { presentationURL: '/' },
-            { manufacturer: config.Manufacturer },
-            { manufacturerURL: config.ManufacturerURL },
-            { modelDescription: config.FriendlyName },
-            { modelName: config.FriendlyName },
-            { modelNumber: config.ModelNumber },
-            { modelURL: config.ManufacturerURL },
-            { serialNumber: '' },
-            { UDN: config.DeviceID },
-          ],
-        },
-        {
-          serviceList: [
-            {
-              service: [
-                { serviceType: 'urn:schemas-upnp-org:service:ConnectionManager:1' },
-                { serviceId: 'urn:upnp-org:serviceId:ConnectionManager' },
-                { SCPDURL: '/ConnectionManager.xml' },
-                { controlURL: `${config.BaseURL}/ConnectionManager.xml` },
-                { eventSubURL: `${config.BaseURL}/ConnectionManager.xml` },
-              ],
-            },
-            {
-              service: [
-                { serviceType: 'urn:schemas-upnp-org:service:ContentDirectory:1' },
-                { serviceId: 'urn:upnp-org:serviceId:ContentDirectory' },
-                { SCPDURL: '/ContentDirectory.xml' },
-                { controlURL: `${config.BaseURL}/ContentDirectory.xml` },
-                { eventSubURL: `${config.BaseURL}/ContentDirectory.xml` },
-              ],
-            },
-          ],
-        },
-        {
-          iconList: [
-            {
-              icon: [
-                { mimetype: 'image/png' },
-                { width: 48 },
-                { height: 48 },
-                { depth: 24 },
-                { url: '/images/apple-touch-icon-57x57.png' },
-              ],
-            },
-            {
-              icon: [
-                { mimetype: 'image/png' },
-                { width: 120 },
-                { height: 120 },
-                { depth: 24 },
-                { url: '/images/apple-touch-icon-120x120.png' },
-              ],
-            },
-          ],
-        },
-      ],
-    }]))
+    .render('device', { config })
 })
 
 app.get('/ConnectionManager.xml', (_, res) => {
