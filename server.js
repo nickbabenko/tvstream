@@ -1,6 +1,5 @@
 const child_process = require('child_process')
 const express = require('express')
-const xml = require('xml')
 const fs = require('fs')
 
 const { config } = require('./config')
